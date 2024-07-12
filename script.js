@@ -4,25 +4,10 @@ const itemList = document.getElementById('item-list');
 const clearBtn = document.getElementById('clear');
 const filter = document.getElementById('filter');
 
-function onAddItemSubmit(e) {
-	e.preventDefault();
-	const newItem = itemInput.value;
-	// Vaidate Input
-	if (newItem === '') {
-		alert('Please add an item');
-		return;
-	}
-	//Create new list item
-	const li = document.createElement('li');
-	li.appendChild(document.createTextNode(newItem));
-	const button = createButton('remove-item btn-link text-red');
-	li.appendChild(button);
-	// Add li to the DOM
-	itemList.appendChild(li);
-	// Check for items length
+function displayItems() {
+	const itemsFromStorage = getItemsFromStorage();
+	itemsFromStorage.forEach((item) => addItemToDom(item));
 	checkUI();
-	// Reset filter input
-	itemInput.value = '';
 }
 
 function createButton(classes) {
@@ -40,14 +25,72 @@ function createIcon(classes) {
 	return icon;
 }
 
-function removeItem(e) {
+function addItemToDom(item) {
+	//Create new list item
+	const li = document.createElement('li');
+	li.appendChild(document.createTextNode(item));
+	const button = createButton('remove-item btn-link text-red');
+	li.appendChild(button);
+	// Add li to the DOM
+	itemList.appendChild(li);
+	// Check for items length
+}
+
+function addItemToStorage(item) {
+	const itemsFromStorage = getItemsFromStorage();
+
+	// pushing to array
+	itemsFromStorage.push(item);
+
+	//Convert to JSON string and set to local storage
+	localStorage.setItem('items', JSON.stringify(itemsFromStorage));
+}
+
+function onAddItemSubmit(e) {
+	e.preventDefault();
+	const newItem = itemInput.value;
+	// Vaidate Input
+	if (newItem === '') {
+		alert('Please add an item');
+		return;
+	}
+	// Create item into DOM Elements
+	addItemToDom(newItem);
+	addItemToStorage(newItem);
+	checkUI();
+	// Reset filter input
+	itemInput.value = '';
+}
+
+function getItemsFromStorage() {
+	let itemsFromStorage;
+
+	if (localStorage.getItem('items') === null) {
+		itemsFromStorage = [];
+	} else {
+		itemsFromStorage = JSON.parse(localStorage.getItem('items'));
+	}
+
+	return itemsFromStorage;
+}
+function onClickItem(e) {
 	if (e.target.parentElement.classList.contains('remove-item')) {
-		const itemName = e.target.textContent;
-		if (confirm('Would you like to remove this list item? \n(OK/Cancel)')) {
-			e.target.parentElement.parentElement.remove();
-		}
+		removeItem(e.target.parentElement.parentElement);
+	}
+}
+
+function removeItem(item) {
+	if (confirm('Would you like to remove this list item? \n(OK/Cancel)')) {
+		item.remove();
+
+		// Remove item from Storage
+		removeItemFromStorage(item.textContent);
 	}
 	checkUI();
+}
+
+function removeItemFromStorage(item) {
+	const itemsFromStorage = getItemsFromStorage();
 }
 
 function clearItems() {
@@ -83,10 +126,16 @@ function search(e) {
 	});
 }
 
-// Event Listeners
-itemForm.addEventListener('submit', onAddItemSubmit);
-itemList.addEventListener('click', removeItem);
-clearBtn.addEventListener('click', clearItems);
-filter.addEventListener('keyup', search);
+function start() {
+	// Event Listeners
+	document.addEventListener('DOMContentLoaded', displayItems);
+	itemForm.addEventListener('submit', onAddItemSubmit);
+	itemList.addEventListener('click', onClickItem);
+	clearBtn.addEventListener('click', clearItems);
+	filter.addEventListener('keyup', search);
 
-checkUI();
+	// Initial check of elements
+	checkUI();
+}
+
+start();
