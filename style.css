@@ -13,7 +13,16 @@ body {
 	font-size: 16px;
 	line-height: 1.5;
 	color: #333;
-	background-color: #f5f5f5;
+	background-color: #0133fd;
+	display: flex;
+	justify-content: center;
+}
+.body {
+	min-height: 100dvh;
+	width: 100dvh;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }
 
 header {
@@ -21,6 +30,7 @@ header {
 	justify-content: center;
 	align-items: center;
 	margin-bottom: 20px;
+	padding: 20px;
 }
 
 header img {
@@ -33,20 +43,46 @@ header h1 {
 }
 
 .container {
-	max-width: 500px;
-	margin: 30px auto;
-	padding: 20px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	width: 500px;
+	margin: 5px auto;
+	padding: 50px;
+	background-color: #ef82e4;
+	min-height: 85dvh;
+	border-radius: 15px;
+	color: #333;
+	padding: 10px;
+	box-shadow: #ef82e4 0px 0px 10px, #ef82e4cc 0px 0px 20px, #ef82e499 0px 0px 30px, #0133fd66 0px 0px 40px, #0133fd33 0px 0px 50px;
 }
 
 /* Form & Input */
+#item-form,
+.filter,
+.btn-clear {
+	width: 80%;
+}
+
 .form-input {
-	width: 100%;
 	font-size: 18px;
+	width: 100%;
 	margin-bottom: 20px;
 	padding: 10px;
-	border: 1px solid #ccc;
+	border: 1px solid #06e528;
 	border-radius: 5px;
 	outline: none;
+}
+
+::placeholder {
+	color: #333;
+	/* Firefox */
+	opacity: 1;
+}
+
+::-ms-input-placeholder {
+	/* Edge 12 -18 */
+	color: #333;
 }
 
 .form-input-filter {
@@ -56,7 +92,7 @@ header h1 {
 	margin-bottom: 20px;
 	padding: 10px;
 	border: none;
-	border-bottom: 1px solid #ccc;
+	border-bottom: 1px solid #a7002d;
 	background: transparent;
 	outline: none;
 }
@@ -86,11 +122,10 @@ header h1 {
 
 .btn-clear {
 	margin-top: 20px;
-	width: 100%;
 	font-size: 16px;
 	background-color: transparent;
 	color: #333;
-	border: 1px solid #ccc;
+	border: 1px solid #a7002d;
 	border-radius: 5px;
 	padding: 10px 20px;
 	cursor: pointer;
@@ -98,6 +133,8 @@ header h1 {
 
 .btn-clear:hover {
 	background-color: #f1f1f1;
+	color: #a7002d;
+	font-size: 1.1rem;
 }
 
 .text-red {
@@ -110,13 +147,15 @@ header h1 {
 	margin-top: 20px;
 	display: flex;
 	flex-wrap: wrap;
+	width: 80%;
+	justify-content: center;
 }
 
-.items li {
+li {
 	display: flex;
 	justify-content: space-between;
 	width: 45%;
-	border: 1px solid #ccc;
+	border: 1px solid #a7002d;
 	border-radius: 5px;
 	padding: 10px 15px;
 	margin: 0 5px 20px;

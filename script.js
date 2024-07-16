@@ -48,7 +48,8 @@ function addItemToStorage(item) {
 
 function onAddItemSubmit(e) {
 	e.preventDefault();
-	const newItem = itemInput.value;
+	const str = itemInput.value;
+	let newItem = str.charAt(0).toUpperCase() + str.slice(1);
 	// Vaidate Input
 	if (newItem === '') {
 		alert('Please add an item');
@@ -90,11 +91,16 @@ function removeItem(item) {
 }
 
 function removeItemFromStorage(item) {
-	const itemsFromStorage = getItemsFromStorage();
+	let itemsFromStorage = getItemsFromStorage();
+
+	itemsFromStorage = itemsFromStorage.filter((i) => i != item);
+
+	localStorage.setItem('items', JSON.stringify(itemsFromStorage));
 }
 
 function clearItems() {
 	itemList.innerHTML = '';
+	localStorage.removeItem('items');
 	checkUI();
 }
 
